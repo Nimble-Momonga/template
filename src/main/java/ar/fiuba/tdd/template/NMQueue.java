@@ -26,12 +26,12 @@ public class NMQueue<T> implements NMQueueInterface<T> {
     }
 
     @Override
-    public T top() throws NMQueueEmptyException {
+    public T top() throws Exception {
         return linkedList.removeLast();
     }
 
     @Override
-    public void remove() throws NMQueueEmptyException {
+    public void remove() throws Exception {
         linkedList.removeLast();
     }
 }

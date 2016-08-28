@@ -31,7 +31,37 @@ public class NMQueueTests {
     }
 
     @Test
-    public void topShouldReturnFirstInput() throws NMQueueEmptyException {
+    public void sizeShouldReturn1() {
+        queue.add(3);
+        assertEquals(1, queue.size());
+    }
+
+    @Test
+    public void sizeShouldReturn2() {
+        queue.add(3);
+        queue.add(5);
+        assertEquals(2, queue.size());
+    }
+
+    @Test
+    public void sizeShouldReturn3() throws Exception {
+        queue.add(3);
+        queue.add(5);
+        queue.add(10);
+        queue.add(7);
+        queue.remove();
+        assertEquals(3, queue.size());
+    }
+
+    @Test
+    public void sizeShouldReturn0() throws Exception {
+        queue.add(3);
+        queue.remove();
+        assertEquals(0, queue.size());
+    }
+
+    @Test
+    public void topShouldReturnFirstInput() throws Exception {
         queue.add(5);
         queue.add(8);
         queue.add(3);
@@ -41,7 +71,7 @@ public class NMQueueTests {
     }
 
     @Test
-    public void topShouldReturnSecondInput() throws NMQueueEmptyException {
+    public void topShouldReturnSecondInput() throws Exception {
         queue.add(5);
         queue.add(8);
         queue.add(3);

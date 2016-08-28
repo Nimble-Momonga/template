@@ -11,7 +11,7 @@ public interface NMQueueInterface<T> {
 
     void add(T item);
 
-    T top() throws NMQueueEmptyException;
+    T top() throws Exception;
 
-    void remove() throws NMQueueEmptyException;
+    void remove() throws Exception;
 }

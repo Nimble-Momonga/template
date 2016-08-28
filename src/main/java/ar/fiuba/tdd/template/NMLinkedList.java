@@ -5,43 +5,50 @@ package ar.fiuba.tdd.template;
  */
 public class NMLinkedList<T> {
 
-    NMNode<T> firstNode;
-    NMNode<T> currentNode;
+    NMNodeInterface<T> firstNode;
+    NMNodeInterface<T> lastNode;
+    int size;
 
     public NMLinkedList() {
-        this.firstNode = null;
-        this.currentNode = null;
+        this.firstNode = new NMTopNodeConcrete<T>();
+        this.lastNode = new NMBottomNodeConcrete<T>();
+        try {
+            this.firstNode.setNext(this.lastNode);
+            this.lastNode.setPrev(this.firstNode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.size = 0;
     }
 
     public boolean isEmpty() {
-        return this.firstNode == null;
+        return this.size == 0;
     }
 
     public int size() {
-        int size = 0;
-        this.currentNode = this.firstNode;
-        while (this.currentNode != null) {
-            size++;
-            this.currentNode = this.currentNode.getNext();
-        }
-        return size;
+        return this.size;
     }
 
-    public void addFirst(T item) {
-        NMNode<T> newNode = new NMNode<T>(item, this.firstNode);
-        this.firstNode = newNode;
+    public void addFirst(T data) {
+        this.size++;
+        NMNodeInterface<T> newNode = new NMNodeConcrete<T>(data);
+        NMNodeInterface<T> firstData;
+        try {
+            firstData = this.firstNode.getNext();
+            firstData.setPrev(newNode);
+            this.firstNode.setNext(newNode);
+            newNode.setPrev(this.firstNode);
+            newNode.setNext(firstData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public T removeLast() {
-        this.currentNode = this.firstNode;
-        NMNode<T> last = null;
-        NMNode<T> next = this.currentNode.getNext();
-        while (next != null) {
-            last = this.currentNode;
-            this.currentNode = next;
-            next = this.currentNode.getNext();
-        }
-        last.removeNext();
-        return this.currentNode.getData();
+    public T removeLast() throws Exception {
+        NMNodeInterface<T> lastData = this.lastNode.getPrev();
+        this.lastNode.setPrev(lastData.getPrev());
+        lastData.getPrev().setNext(this.lastNode);
+        this.size--;
+        return lastData.getData();
     }
 }
